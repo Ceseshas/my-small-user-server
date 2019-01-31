@@ -9,4 +9,9 @@ class ErrorInfo {
         this.url = url;
         this.ex = ex.getLocalizedMessage();
     }
+
+    public ErrorInfo(String url, Exception ex, String message) {
+        this.url = url;
+        this.ex = message;
+    }
 }

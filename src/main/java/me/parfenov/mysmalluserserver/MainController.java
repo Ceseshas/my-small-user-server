@@ -43,8 +43,6 @@ public class MainController {
 			throw new MyException("A new entry was not added because the id field is not null.");
 		}
 
-		HttpHeaders responseHeader = new HttpHeaders();
-
 	    return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
 
 	}
@@ -79,4 +77,17 @@ public class MainController {
         return new ErrorInfo(req.getRequestURL().toString(), ex);
     }
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(NumberFormatException.class)
+	@ResponseBody ErrorInfo
+	handleBadRequest2(HttpServletRequest req, Exception ex) {
+		return new ErrorInfo(req.getRequestURL().toString(), ex, "Text entered where a number is required.");
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(com.fasterxml.jackson.databind.exc.InvalidFormatException.class)
+	@ResponseBody ErrorInfo
+	handleBadRequest3(HttpServletRequest req, Exception ex) {
+		return new ErrorInfo(req.getRequestURL().toString(), ex, "Invalid input format.");
+	}
 }
