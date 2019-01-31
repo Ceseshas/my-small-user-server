@@ -4,14 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 @RestController
 public class MainController {
@@ -40,7 +41,7 @@ public class MainController {
 	ResponseEntity<User> createUser(@RequestBody @Valid User user) throws MyException {
 
 	    if (user.getId() != null) {
-			throw new MyException("A new entry was not added because the id field is not null.");
+            throw new MyException("A new record was not added because the id field is not null.");
 		}
 
 	    return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
@@ -90,4 +91,12 @@ public class MainController {
 	handleBadRequest3(HttpServletRequest req, Exception ex) {
 		return new ErrorInfo(req.getRequestURL().toString(), ex, "Invalid input format.");
 	}
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({NoSuchElementException.class, EmptyResultDataAccessException.class})
+    @ResponseBody
+    ErrorInfo
+    handleBadRequest4(HttpServletRequest req, Exception ex) {
+        return new ErrorInfo(req.getRequestURL().toString(), ex, "The record with which the action is performed was not found.");
+    }
 }
