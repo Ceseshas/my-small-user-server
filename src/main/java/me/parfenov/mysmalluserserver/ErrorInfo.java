@@ -3,15 +3,15 @@ package me.parfenov.mysmalluserserver;
 class ErrorInfo {
 
     public final String url;
-    public final String ex;
+    public final String message;
 
     public ErrorInfo(String url, Exception ex) {
         this.url = url;
-        this.ex = ex.getLocalizedMessage();
+        this.message = ex.getLocalizedMessage();
     }
 
-    public ErrorInfo(String url, Exception ex, String message) {
+    public ErrorInfo(String url, String message) {
         this.url = url;
-        this.ex = message;
+        this.message = message;
     }
 }

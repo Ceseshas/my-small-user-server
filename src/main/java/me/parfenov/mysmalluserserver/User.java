@@ -21,9 +21,10 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-	@NotNull(message = "Name must not be null.")
+    @NotNull(message = "Name must not be null.")
     @Size(min = 1, max = 30, message = "Name length must be between {min} and {max}.")
-    @Pattern(regexp = "^[A-ZА-ЯЁ]([A-Za-zА-Яа-яёЁ0-9_\\-\\.]*[A-Za-zА-Яа-яёЁ0-9]{1})?$", message = "Name contains invalid characters or (and) does not begin with a capital letter.")
+    @Pattern(regexp = "^[A-ZА-ЯЁ]([A-Za-zА-Яа-яёЁ0-9_\\-\\.]*[A-Za-zА-Яа-яёЁ0-9]{1})?$",
+            message = "Name contains invalid characters or (and) does not begin with a capital letter.")
     private String name;
 
     @NotNull(message = "Age must not be null.")
